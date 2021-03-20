@@ -1,0 +1,37 @@
+﻿Выполняется установка сборки 'F:\WorkSpace\DLPSystem\ClientService\bin\Debug\ClientService.exe'.
+Затронуты следующие параметры:
+   logtoconsole = 
+   logfile = F:\WorkSpace\DLPSystem\ClientService\bin\Debug\ClientService.InstallLog
+   assemblypath = F:\WorkSpace\DLPSystem\ClientService\bin\Debug\ClientService.exe
+Устанавливается служба DLPClientService...
+Создается исходный EventLog DLPClientService в журнале Application...
+Выполняется откат для сборки 'F:\WorkSpace\DLPSystem\ClientService\bin\Debug\ClientService.exe'.
+Затронуты следующие параметры:
+   logtoconsole = 
+   logfile = F:\WorkSpace\DLPSystem\ClientService\bin\Debug\ClientService.InstallLog
+   assemblypath = F:\WorkSpace\DLPSystem\ClientService\bin\Debug\ClientService.exe
+Восстанавливается исходное состояние журнала событий для источника DLPClientService.
+При выполнении программы установки System.Diagnostics.EventLogInstaller на этапе отката возникло исключение.
+System.Security.SecurityException: Источник не найден, но не удалось выполнить поиск по нескольким или всем журналам событий.  Недоступные журналы: Security.
+На этапе отката процедуры установки возникло исключение. Это исключение будет проигнорировано, и откат будет продолжен. Однако после завершения отката компьютер может не вернуться полностью в исходное состояние.
+Выполняется установка сборки 'F:\WorkSpace\DLPSystem\ClientService\bin\Debug\ClientService.exe'.
+Затронуты следующие параметры:
+   logtoconsole = 
+   logfile = F:\WorkSpace\DLPSystem\ClientService\bin\Debug\ClientService.InstallLog
+   assemblypath = F:\WorkSpace\DLPSystem\ClientService\bin\Debug\ClientService.exe
+Устанавливается служба DLPClientService...
+Служба DLPClientService успешно установлена.
+Создается исходный EventLog DLPClientService в журнале Application...
+Выполняется фиксация сборки 'F:\WorkSpace\DLPSystem\ClientService\bin\Debug\ClientService.exe'.
+Затронуты следующие параметры:
+   logtoconsole = 
+   logfile = F:\WorkSpace\DLPSystem\ClientService\bin\Debug\ClientService.InstallLog
+   assemblypath = F:\WorkSpace\DLPSystem\ClientService\bin\Debug\ClientService.exe
+Выполняется удаление сборки 'F:\WorkSpace\DLPSystem\ClientService\bin\Debug\ClientService.exe'.
+Затронуты следующие параметры:
+   logtoconsole = 
+   logfile = F:\WorkSpace\DLPSystem\ClientService\bin\Debug\ClientService.InstallLog
+   assemblypath = F:\WorkSpace\DLPSystem\ClientService\bin\Debug\ClientService.exe
+Выполняется удаление источника EventLog DLPClientService.
+Выполняется удаление службы DLPClientService из системы...
+Служба DLPClientService успешно удалена из системы.

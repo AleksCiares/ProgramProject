@@ -1,0 +1,10 @@
+F:\WorkSpace\DLPSystem\ClientService\bin\Debug\ClientService.exe.config
+F:\WorkSpace\DLPSystem\ClientService\bin\Debug\ClientService.exe
+F:\WorkSpace\DLPSystem\ClientService\bin\Debug\ClientService.pdb
+F:\WorkSpace\DLPSystem\ClientService\obj\Debug\ClientService.csprojAssemblyReference.cache
+F:\WorkSpace\DLPSystem\ClientService\obj\Debug\ClientService.csproj.GenerateResource.cache
+F:\WorkSpace\DLPSystem\ClientService\obj\Debug\ClientService.csproj.CoreCompileInputs.cache
+F:\WorkSpace\DLPSystem\ClientService\obj\Debug\ClientService.exe
+F:\WorkSpace\DLPSystem\ClientService\obj\Debug\ClientService.pdb
+F:\WorkSpace\DLPSystem\ClientService\obj\Debug\ClientService.ProjectInstaller.resources
+F:\WorkSpace\DLPSystem\ClientService\obj\Debug\ClientService.DLPClientService.resources

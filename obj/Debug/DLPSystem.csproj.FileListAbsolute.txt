@@ -1,0 +1,2 @@
+F:\WorkSpace\DLPSystem\obj\Debug\DLPSystem.csprojAssemblyReference.cache
+F:\WorkSpace\DLPSystem\obj\Debug\DLPSystem.csproj.CoreCompileInputs.cache
