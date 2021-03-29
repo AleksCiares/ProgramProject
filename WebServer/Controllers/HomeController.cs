@@ -16,12 +16,17 @@ namespace WebServer.Controllers
             new Product {Name = "Soccer ball", Category = "Soccer", Price = 19.50M},
             new Product {Name = "Corner flag", Category = "Soccer", Price = 34.95M}
         };
+        private IValueCalculator calculator;
+
+        public HomeController(IValueCalculator calculator)
+        {
+            this.calculator = calculator;
+        }
 
         //GET: Home
         public ActionResult Index()
         {
-            IValueCalculator calc = new LinqValueCalculator();
-            ShoppingCart cart = new ShoppingCart(calc) { Products = products };
+            ShoppingCart cart = new ShoppingCart(this.calculator) { Products = products };
             decimal totalValue = cart.CalculateProductTotal();
             return View(totalValue);
         }

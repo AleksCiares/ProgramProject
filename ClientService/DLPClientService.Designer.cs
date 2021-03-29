@@ -1,4 +1,6 @@
 ﻿
+using System.Collections.Generic;
+
 namespace ClientService
 {
     partial class DLPClientService
@@ -7,6 +9,9 @@ namespace ClientService
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
+        private string pathToModulesConfigFile = null;
+        private string serverName = null;
+        private int serverPort = 0;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -32,10 +37,15 @@ namespace ClientService
             // 
             // DLPClientService
             // 
+            this.CanHandleSessionChangeEvent = true;
+            this.CanShutdown = true;
+            this.CanStop = false;
             this.ServiceName = "DLPClientService";
+
 
         }
 
         #endregion
+
     }
 }
