@@ -32,28 +32,7 @@ namespace ClientService
 
         }
 
-        private void OnWork()
-        {
-            CheckModulesConfigFile();
-            var modules = JsonContoller.ReadJsonFromFile<List<Module>>(this.pathToModulesConfigFile);
-            List<Process> processes = ModulesController.ExecuteModules(modules);
 
-            //take out in a separate method
-            TcpListener listener = Connection.StartListener();
-            
-            using(TcpClient client = Connection.ConnectToServer(this.serverName, serverPort))
-            {
-                NetworkStream stream = client.GetStream();
-                Packet packet = new Packet()
-                {
-                    Task = "checkmodulesconfigfile",
-                    Data = null
-                };
-
-                Connection.SendData(stream, JsonContoller.SerializeToBson<Packet>(packet));
-                packet = JsonContoller.DeserializeFromBson<Packet>(Connection.RecieveData(stream));
-            }
-        }
 
        
     }

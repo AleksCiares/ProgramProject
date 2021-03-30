@@ -1,6 +1,4 @@
 ﻿using ClientService.Model;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,16 +11,21 @@ namespace ClientService.Controllers
 {
     public static class ModulesController
     {
-        public static List<Process> ExecuteModules(List<Module> modules)
+        public static List<Process> ExecuteModules(string pathToFolder, List<Module> modules)
         {
             List<Process> processes = new List<Process>();
 
             foreach(var module in modules)
             {
-                processes.Add(Process.Start(module.Path));
+                processes.Add(Process.Start(Path.Combine(pathToFolder, module.Name)));
             }
 
             return processes;
+        }
+
+        public static void InstallModule(string pathToFolder, Module module)
+        {
+            File.WriteAllBytes(Path.Combine(pathToFolder, module.Name), module.Data);
         }
     }
 }

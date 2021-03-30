@@ -40,6 +40,7 @@ namespace ClientService.Controllers
         public static void SendData(NetworkStream stream, byte[] data)
         {
             stream.Write(data, 0, data.Length);
+            stream.Flush();
         }
 
         public static byte[] RecieveData(NetworkStream stream)
