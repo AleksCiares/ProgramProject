@@ -1,5 +1,5 @@
 ﻿
-namespace ClientService
+namespace DLPSystem.ClientService
 {
     partial class ProjectInstaller
     {

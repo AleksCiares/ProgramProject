@@ -1,12 +1,13 @@
-﻿using ClientService.Controllers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DLPSystem.ClientService.ServiceEngine.Controllers;
+using DLPSystem.ClientService.ServiceEngine.Models;
 
-namespace ServiceEngine
+namespace DLPSystem.ClientService.ServiceEngine
 {
     public partial class ServiceEngine
     {
@@ -25,8 +26,19 @@ namespace ServiceEngine
             if (this.CheckAndReadModulesConfigFile() != null)
                 this.processes = ModulesController.ExecuteModules(this.pathToModulesFolder,
                     this.modules);
-
+            
+            using(var client = Connection.ConnectToServer(this.serverName, this.port))
+            {
+                var stream = client.GetStream();
+                Connection.SendData(stream, JsonController.SerializeToBson<Packet>(new Packet()
+                {
+                    Task = "Hi",
+                    Data = null
+                }));
+            }
             this.StartListener();
+
+
         }
 
         public static void Main()

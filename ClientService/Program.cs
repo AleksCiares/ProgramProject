@@ -5,7 +5,7 @@ using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ClientService
+namespace DLPSystem.ClientService
 {
     static class Program
     {

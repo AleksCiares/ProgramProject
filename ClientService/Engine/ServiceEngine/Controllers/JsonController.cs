@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ClientService.Controllers
+namespace DLPSystem.ClientService.ServiceEngine.Controllers
 {
     public static class JsonController
     {
@@ -26,8 +26,9 @@ namespace ClientService.Controllers
                     list = JsonConvert.DeserializeObject<T>(jObject.ToString());
 
                     reader.Close();
-                    file.Close();
                 }
+
+                file.Close();
             }
 
             return list;

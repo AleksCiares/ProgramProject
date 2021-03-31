@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DLPSystem.ClientService.ServiceEngine.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -6,9 +7,8 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using ClientService.Model;
 
-namespace ClientService.Controllers
+namespace DLPSystem.ClientService.ServiceEngine.Controllers
 {
     public static class Connection
     {

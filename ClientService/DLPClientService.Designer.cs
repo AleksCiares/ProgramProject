@@ -1,7 +1,6 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace ClientService
+namespace DLPSystem.ClientService
 {
     partial class DLPClientService
     {

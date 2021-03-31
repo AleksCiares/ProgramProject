@@ -1,14 +1,14 @@
-﻿using ClientService.Controllers;
-using ClientService.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DLPSystem.ClientService.ServiceEngine.Controllers;
+using DLPSystem.ClientService.ServiceEngine.Models;
 
-namespace ServiceEngine
+namespace DLPSystem.ClientService.ServiceEngine
 {
     public partial class ServiceEngine
     {

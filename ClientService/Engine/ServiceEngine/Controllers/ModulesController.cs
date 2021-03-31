@@ -1,4 +1,4 @@
-﻿using ClientService.Model;
+﻿using DLPSystem.ClientService.ServiceEngine.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ClientService.Controllers
+namespace DLPSystem.ClientService.ServiceEngine.Controllers
 {
     public static class ModulesController
     {

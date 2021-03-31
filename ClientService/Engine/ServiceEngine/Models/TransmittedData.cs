@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ClientService.Model
+namespace DLPSystem.ClientService.ServiceEngine.Models
 {
     public class TransmittedData
     {
