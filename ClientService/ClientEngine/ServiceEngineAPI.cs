@@ -1,27 +1,20 @@
 ﻿using DeviceId;
-using DLPEngineLibrary.Controllers;
-using DLPEngineLibrary.Models;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 
 namespace DLPSystem.ClientService.ClientEngine
 {
     internal partial class ServiceEngine
     {
-        internal ServiceEngine(string pathToServiceFolder, string serverName, int port)
+        internal ServiceEngine(string path, string serverIp, int serverPort)
         {
-            this.pathToServiceFolder = pathToServiceFolder;
-            this.pathToServiceConfigFile = Path.Combine(pathToServiceFolder, "ServiceConfig.json");
-            this.pathToModulesConfigFile = Path.Combine(pathToServiceFolder, "ModulesConfig.json");
-            this.pathToModulesFolder = Path.Combine(pathToServiceFolder, "Modules");
-            this.serverName = serverName;
-            this.port = port;
-            this.deviceId = new DeviceIdBuilder().AddMacAddress().ToString();
+            pathToServiceFolder = path;
+            pathToServiceConfigFile = Path.Combine(path, "ServiceConfig.json");
+            pathToModulesConfigFile = Path.Combine(path, "ModulesConfig.json");
+            pathToModulesFolder = Path.Combine(path, "Modules");
+            serverName = serverIp;
+            port = serverPort;
+            deviceId = new DeviceIdBuilder().AddMacAddress().ToString();
         }
 
         internal void Start()
@@ -29,14 +22,19 @@ namespace DLPSystem.ClientService.ClientEngine
             InitService();
             SynсhronizeDataWithServer();
 
-            this.StartListener();
+            StartListener();
 
-            foreach (var module in this.modulesConfig)
+            foreach (var module in this._modulesconfig)
             {
                 var proc = ExecuteModule(module);
                 if (proc != null)
                     this.processes.Add(proc);
             }
+
+        }
+
+        internal void Stop()
+        {
 
         }
     }

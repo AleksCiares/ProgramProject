@@ -4,27 +4,44 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Net.Sockets;
 using System.Threading;
 
 namespace WebFormServer.Engine
 {
     internal static partial class ServerEngine
     {
-        static readonly object locker = new object();
+        private static readonly object locker = new object();
+        private static ManualResetEventSlim mainEvent = new ManualResetEventSlim(false);
 
         private static string pathToServerFolder = null;
         private static string pathToModulesFolder = null;
         private static string pathToClientsInfoFolder = null;
         private static string pathToClientsConfigFile = null;
-        private static List<Client> controlledClients
+        private static List<Client> controlledclients = null;
+        private static List<Client> ControlledClients
         {
-            get { return controlledClients; }
+            get
+            {
+                lock (locker)
+                    if (controlledclients == null)
+                    {
+                        controlledclients = FileController.ReadObjectFromFile(pathToClientsConfigFile,
+                            JsonController.ReadObjectFromJsonFile<List<Client>>);
+                        if (controlledclients == null) controlledclients = new List<Client>();
+                    }
+
+                return controlledclients;
+            }
             set
             {
-                lock(locker)
-                {
-                    controlledClients = value;
-                }
+                lock (locker)
+                    if (value != default(List<Client>) && value.Count > 0)
+                    {
+                        controlledclients = value;
+                        FileController.WriteObjectToFile(pathToClientsConfigFile,
+                            value, JsonController.WriteObjectToJsonFile);
+                    }
             }
         }
 
@@ -35,27 +52,23 @@ namespace WebFormServer.Engine
             pathToModulesFolder = Path.Combine(pathToServerFolder, "Modules");
             pathToClientsConfigFile = Path.Combine(pathToClientsInfoFolder, "ClientsConfig.json");
 
-            if (!Directory.Exists(pathToServerFolder))
-                Directory.CreateDirectory(pathToServerFolder);
+            //if (!Directory.Exists(pathToServerFolder))
+            //    Directory.CreateDirectory(pathToServerFolder);
 
-            if (!Directory.Exists(pathToClientsInfoFolder))
-                Directory.CreateDirectory(pathToClientsInfoFolder);
+            //if (!Directory.Exists(pathToClientsInfoFolder))
+            //    Directory.CreateDirectory(pathToClientsInfoFolder);
 
-            if (!Directory.Exists(pathToModulesFolder))
-                Directory.CreateDirectory(pathToModulesFolder);
+            //if (!Directory.Exists(pathToModulesFolder))
+            //    Directory.CreateDirectory(pathToModulesFolder);
 
-            if (!File.Exists(pathToClientsConfigFile))
-                File.Create(pathToClientsConfigFile).Close();
-
-            controlledClients = FileController.ReadObjectFromFile<List<Client>>(
-                pathToClientsConfigFile, JsonController.ReadObjectFromJsonFile<List<Client>>);
-            if (controlledClients == null) controlledClients = new List<Client>();
+            //if (!File.Exists(pathToClientsConfigFile))
+            //    File.Create(pathToClientsConfigFile).Close();
         }
 
         private static void SaveAllConfigs()
         {
             FileController.WriteObjectToFile<List<Client>>(pathToClientsConfigFile,
-                controlledClients, JsonController.WriteObjectToJsonFile<List<Client>>);
+                ControlledClients, JsonController.WriteObjectToJsonFile<List<Client>>);
         }
 
         private static string GetPathToClientFolder(Client client)
@@ -66,20 +79,13 @@ namespace WebFormServer.Engine
             return path;
         }
 
-        private static void CreateAllClientDirectiries(Client client)
-        {
-            string path = GetPathToClientFolder(client);
-            if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);
-        }
-
         private static Client GetClientConfig(IPEndPoint endPoint, Packet packet)
         {
             string tempDnsName = Dns.GetHostEntry(endPoint.Address).HostName;
             string tempIpHost = endPoint.Address.ToString();
 
-            if (controlledClients.Count > 0)
-                foreach (var client in controlledClients)
+            if (ControlledClients.Count > 0)
+                foreach (var client in ControlledClients)
                     if (client.GUID == packet.GUID)
                     {
                         if (client.HostName != packet.HostName || client.DnsName != tempDnsName ||
@@ -96,6 +102,8 @@ namespace WebFormServer.Engine
                             client.HostName = packet.HostName;
                             client.DnsName = tempDnsName;
                             client.IpHost = tempIpHost;
+
+                            ControlledClients = ControlledClients;
                         }
                         return client;
                     }
@@ -110,8 +118,8 @@ namespace WebFormServer.Engine
                 DnsName = tempDnsName,
                 IpHost = tempIpHost,
             };
-            controlledClients.Add(tempClient);
-            CreateAllClientDirectiries(tempClient);
+            ControlledClients.Add(tempClient);
+            ControlledClients = ControlledClients;
             return tempClient;
         }
 
@@ -126,9 +134,9 @@ namespace WebFormServer.Engine
                 #region case CheckServiceConfig
                 case "CheckServiceConfig":
                     var serviceConf1 = FileController.ReadObjectFromFile(Path.Combine(GetPathToClientFolder(client),
-                        "ServiceConfig.json"), JsonController.ReadObjectFromJsonFile<ServiceConfig>);
-                    var serviceConf2 = JsonController.DeserializeFromBson<ServiceConfig>(packet.Data);
-                    if (!FileController.CompareObjects(serviceConf1, serviceConf2))
+                        "ServiceConfig.json"), JsonController.ReadObjectFromJsonFile<ServiceConfiguration>);
+                    var serviceConf2 = JsonController.DeserializeFromBson<ServiceConfiguration>(packet.Data);
+                    if (!ObjectController.CompareObjects(serviceConf1, serviceConf2))
                     {
                         answer.Task = "objectNotConfirmed";
                         answer.Data = JsonController.SerializeToBson(serviceConf1);
@@ -146,7 +154,7 @@ namespace WebFormServer.Engine
                     var modulesConf1 = FileController.ReadObjectFromFile(Path.Combine(GetPathToClientFolder(client),
                         "ModulesConfig.json"), JsonController.ReadObjectFromJsonFile<List<Module>>);
                     var modulesConf2 = JsonController.DeserializeFromBson<List<Module>>(packet.Data);
-                    if (!FileController.CompareObjects(modulesConf1, modulesConf2))
+                    if (!ObjectController.CompareObjects(modulesConf1, modulesConf2))
                     {
                         answer.Task = "objectNotConfirmed";
                         answer.Data = JsonController.SerializeToBson(modulesConf1);
@@ -170,11 +178,12 @@ namespace WebFormServer.Engine
 
         private static void StartListener()
         {
+            TcpListener listener = null;
             do
             {
                 try
                 {
-                    var listener = Connection.StartListener(IPAddress.Loopback.ToString());
+                    listener = Connection.StartListener(IPAddress.Loopback.ToString());
                     do
                     {
                         if (listener.Pending())
@@ -192,14 +201,16 @@ namespace WebFormServer.Engine
                                 tcpClient.Close();
                             }
                         else
-                            Thread.Sleep(TimeSpan.FromSeconds(20));
-                        
-
-                    }
-                    while (true);
+                            if (mainEvent.Wait(TimeSpan.FromSeconds(5)))
+                        {
+                            listener.Stop();
+                            return;
+                        }
+                    } while (true);
                 }
                 catch (Exception e)
                 {
+                    listener?.Stop();
                     continue;
                 }
             } while (true);

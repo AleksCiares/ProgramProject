@@ -53,6 +53,7 @@ F:\WorkSpace\DLPSystem\WebFormServer\bin\roslyn\VBCSCompiler.exe.config
 F:\WorkSpace\DLPSystem\WebFormServer\bin\Antlr3.Runtime.dll
 F:\WorkSpace\DLPSystem\WebFormServer\bin\AspNet.ScriptManager.bootstrap.dll
 F:\WorkSpace\DLPSystem\WebFormServer\bin\AspNet.ScriptManager.jQuery.dll
+F:\WorkSpace\DLPSystem\WebFormServer\bin\DLPEngineLibrary.dll
 F:\WorkSpace\DLPSystem\WebFormServer\bin\Microsoft.AspNet.FriendlyUrls.dll
 F:\WorkSpace\DLPSystem\WebFormServer\bin\Microsoft.AspNet.Web.Optimization.WebForms.dll
 F:\WorkSpace\DLPSystem\WebFormServer\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
@@ -62,15 +63,14 @@ F:\WorkSpace\DLPSystem\WebFormServer\bin\Microsoft.Web.Infrastructure.dll
 F:\WorkSpace\DLPSystem\WebFormServer\bin\Newtonsoft.Json.dll
 F:\WorkSpace\DLPSystem\WebFormServer\bin\System.Web.Optimization.dll
 F:\WorkSpace\DLPSystem\WebFormServer\bin\WebGrease.dll
+F:\WorkSpace\DLPSystem\WebFormServer\bin\DLPEngineLibrary.pdb
 F:\WorkSpace\DLPSystem\WebFormServer\bin\System.Web.Optimization.xml
 F:\WorkSpace\DLPSystem\WebFormServer\bin\Newtonsoft.Json.xml
 F:\WorkSpace\DLPSystem\WebFormServer\bin\Antlr3.Runtime.pdb
 F:\WorkSpace\DLPSystem\WebFormServer\bin\Microsoft.AspNet.FriendlyUrls.xml
 F:\WorkSpace\DLPSystem\WebFormServer\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-F:\WorkSpace\DLPSystem\WebFormServer\obj\Debug\WebFormServer.csprojAssemblyReference.cache
 F:\WorkSpace\DLPSystem\WebFormServer\obj\Debug\WebFormServer.csproj.CoreCompileInputs.cache
 F:\WorkSpace\DLPSystem\WebFormServer\obj\Debug\WebFormServer.csproj.CopyComplete
 F:\WorkSpace\DLPSystem\WebFormServer\obj\Debug\WebFormServer.dll
 F:\WorkSpace\DLPSystem\WebFormServer\obj\Debug\WebFormServer.pdb
-F:\WorkSpace\DLPSystem\WebFormServer\bin\DLPEngineLibrary.dll
-F:\WorkSpace\DLPSystem\WebFormServer\bin\DLPEngineLibrary.pdb
+F:\WorkSpace\DLPSystem\WebFormServer\obj\Debug\WebFormServer.csprojAssemblyReference.cache

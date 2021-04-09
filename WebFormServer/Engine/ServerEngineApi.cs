@@ -16,7 +16,7 @@ namespace WebFormServer.Engine
     {
         internal static List<Client> Clients 
         {
-            get { return controlledClients; }
+            get { return controlledclients; }
             private set {  } 
         }
 
@@ -29,6 +29,7 @@ namespace WebFormServer.Engine
         internal static void Stop()
         {
             SaveAllConfigs();
+            mainEvent.Set();
         }
 
         internal static void SendTask<T>(string hostname, int port, string task, T @object)

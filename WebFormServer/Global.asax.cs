@@ -17,13 +17,13 @@ namespace WebFormServer
     {
         void Application_Start(object sender, EventArgs e)
         {
-            Thread thread = new Thread(() =>
-            {
-                ServerEngine.Start(@"F:\WorkSpace\Testdlpsystem\Server");
-            });
-            thread.Start();
+            //Thread thread = new Thread(() =>
+            //{
+            //    ServerEngine.Start(@"F:\WorkSpace\Testdlpsystem\Server");
+            //});
+            //thread.Start();
 
-            //ServerEngine.Start(@"F:\WorkSpace\Testdlpsystem\Server");
+            ServerEngine.Start(@"F:\WorkSpace\Testdlpsystem\Server");
 
             // Code that runs on application startup
             RouteConfig.RegisterRoutes(RouteTable.Routes);

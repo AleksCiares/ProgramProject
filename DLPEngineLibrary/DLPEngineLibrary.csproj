@@ -52,10 +52,11 @@
     <Compile Include="Controllers\Connection.cs" />
     <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\JsonController.cs" />
+    <Compile Include="Controllers\ObjectController.cs" />
     <Compile Include="Models\Client.cs" />
     <Compile Include="Models\Module.cs" />
     <Compile Include="Models\Packet.cs" />
-    <Compile Include="Models\ServiceConfig.cs" />
+    <Compile Include="Models\ServiceConfiguration.cs" />
     <Compile Include="Models\TransmittedData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

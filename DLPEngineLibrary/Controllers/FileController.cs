@@ -96,6 +96,10 @@ namespace DLPEngineLibrary.Controllers
         ///</returns>
         internal static T ReadObjectFromFile<T>(string pathToFile, FileReader<T> reader) where T : new()
         {
+            string pathTodir = Path.GetDirectoryName(pathToFile);
+            if (!Directory.Exists(pathTodir))
+                Directory.CreateDirectory(pathTodir);
+
             if (!File.Exists(pathToFile))
             {
                 File.Create(pathToFile).Close();
@@ -127,6 +131,10 @@ namespace DLPEngineLibrary.Controllers
         /// <param name="writer"></param>
         internal static void WriteObjectToFile<T>(string pathToFile, T @object, FileWriter<T> writer)
         {
+            string pathTodir = Path.GetDirectoryName(pathToFile);
+            if (!Directory.Exists(pathTodir))
+                Directory.CreateDirectory(pathTodir);
+
             if (!File.Exists(pathToFile))
                 File.Create(pathToFile).Close();
 
@@ -136,32 +144,17 @@ namespace DLPEngineLibrary.Controllers
             writer(pathToFile, @object);
         }
 
-        internal static bool CompareObjects<T>(T object1, T object2) where T : class
+        internal static void WriteBinaryFile(string pathToFile, byte[] data)
         {
-            if (object.Equals(object1, object2))
-                return true;
+            string pathTodir = Path.GetDirectoryName(pathToFile);
+            if (!Directory.Exists(pathTodir))
+                Directory.CreateDirectory(pathTodir);
 
-            if (object.Equals(object1, default(T)) || object.Equals(object2, default(T)))
-                return false;
-
-            Type type = typeof(T);
-
-            foreach(System.Reflection.PropertyInfo property in type.GetProperties())
+            using (BinaryWriter writer = new BinaryWriter(File.Open(pathToFile, FileMode.Create)))
             {
-                string object1Value = string.Empty;
-                string object2Value = string.Empty;
-
-                if (type.GetProperty(property.Name).GetValue(object1, null) != null)
-                    object1Value = type.GetProperty(property.Name).GetValue(object1, null).ToString();
-
-                if (type.GetProperty(property.Name).GetValue(object2, null) != null)
-                    object2Value = type.GetProperty(property.Name).GetValue(object2, null).ToString();
-
-                if (object1Value.Trim() != object2Value.Trim())
-                    return false;
+                writer.Write(data);
+                writer.Close();
             }
-
-            return true;
         }
     }
 }

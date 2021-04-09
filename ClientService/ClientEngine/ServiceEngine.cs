@@ -17,61 +17,110 @@ namespace DLPSystem.ClientService.ClientEngine
 {
     internal partial class ServiceEngine
     {
+        private ManualResetEventSlim closeEvent = new ManualResetEventSlim(false);
+
+        private string serverName = null;
+        private int port = default(int);
+
         private string pathToServiceFolder = null;
         private string pathToServiceConfigFile = null;
         private string pathToModulesConfigFile = null;
         private string pathToModulesFolder = null;
         private string deviceId = null;
 
-        private string serverName = null;
-        private int port = 0;
+        private ServiceConfiguration _serviceconfig = null;
+        private readonly object serviceLocker = new object();
+        private ServiceConfiguration ServiceConfig
+        {
+            get 
+            {
+                lock(serviceLocker)
+                    if(_serviceconfig == null)
+                    {
+                        _serviceconfig = FileController.ReadObjectFromFile(pathToServiceConfigFile,
+                            JsonController.ReadObjectFromJsonFile<ServiceConfiguration>);
+                        if (_serviceconfig == null) _serviceconfig = new ServiceConfiguration();
+                    }
 
-        private ServiceConfig serviceConfig = null;
-        private List<Module> modulesConfig = null;
-        private List<Process> processes = null;
+                return _serviceconfig;
+            }
+            set
+            {
+                lock(serviceLocker)
+                    if(value != default(ServiceConfiguration) && !value.IsEmpty)
+                    {
+                        _serviceconfig = value;
+                        FileController.WriteObjectToFile(pathToServiceConfigFile, value,
+                            JsonController.WriteObjectToJsonFile);
+                    }
+            }
+        }
+
+        private List<Module> _modulesconfig = null;
+        private readonly object modulesLocker = new object();
+        private List<Module> ModulesConfig
+        {
+            get
+            {
+                lock(modulesLocker)
+                    if(_modulesconfig == null)
+                    {
+                        _modulesconfig = FileController.ReadObjectFromFile(this.pathToModulesConfigFile,
+                            JsonController.ReadObjectFromJsonFile<List<Module>>);
+                        if (_modulesconfig == null) _modulesconfig = new List<Module>();
+                    }
+
+                return _modulesconfig;
+            }
+            set
+            {
+                lock(modulesLocker)
+                    if(value != default(List<Module>) && value.Count > 0)
+                    {
+                        _modulesconfig = value;
+                        FileController.WriteObjectToFile(pathToModulesConfigFile, value,
+                            JsonController.WriteObjectToJsonFile);
+                    }
+            }
+        }
+
+        private List<Process> processes = new List<Process>();
         
         private void InitService()
         {
-            if (!Directory.Exists(this.pathToServiceFolder))
-                Directory.CreateDirectory(this.pathToServiceFolder);
+            //if (!Directory.Exists(pathToServiceFolder))
+            //    Directory.CreateDirectory(pathToServiceFolder);
 
-            if (!File.Exists(this.pathToServiceFolder))
-                File.Create(this.pathToServiceConfigFile).Close();
+            //if (!Directory.Exists(pathToModulesFolder))
+            //    Directory.CreateDirectory(pathToModulesFolder);
 
-            if (!File.Exists(this.pathToModulesConfigFile))
-                File.Create(this.pathToModulesConfigFile).Close();
+            //if (!File.Exists(pathToServiceConfigFile))
+            //    File.Create(pathToServiceConfigFile).Close();
 
-            if (!Directory.Exists(this.pathToModulesFolder))
-                Directory.CreateDirectory(this.pathToModulesFolder);
-
-            serviceConfig = FileController.ReadObjectFromFile(pathToServiceConfigFile,
-                JsonController.ReadObjectFromJsonFile<ServiceConfig>);
-            if (serviceConfig == null) serviceConfig = new ServiceConfig();
-
-            modulesConfig = FileController.ReadObjectFromFile(this.pathToModulesConfigFile,
-                JsonController.ReadObjectFromJsonFile<List<Module>>);
-            if (modulesConfig == null) modulesConfig = new List<Module>();
+            //if (!File.Exists(pathToModulesConfigFile))
+            //    File.Create(pathToModulesConfigFile).Close();
         }
 
-        private T VerifyObjectOnServer<T>(string task, T objectToCheck)
+        private T VerifyObjectOnServer<T, T1>(string task, T objectToCheck, string property, T1 comparator)
         {
             double time = 4;
             short attemptNumber = 0;
 
+            TcpClient host = null;
             do
             {
                 try
                 {
-                    using (var host = Connection.ConnectToHost(serverName, port))
+                    using (host = Connection.ConnectToHost(serverName, port))
                     {
                         var stream = host.GetStream();
                         Connection.SendData(stream,
                             JsonController.SerializeToBson(new Packet
                             {
-                                GUID = this.deviceId,
+                                GUID = deviceId,
                                 HostName = Dns.GetHostName(),
                                 Task = task,
-                                Data = JsonController.SerializeToBson(objectToCheck)
+                                Data = JsonController.SerializeToBson(ObjectController.GetDataAvailabity(objectToCheck, property, comparator))
                             }));
 
                         var packet = JsonController.DeserializeFromBson<Packet>
@@ -92,9 +141,13 @@ namespace DLPSystem.ClientService.ClientEngine
                         }
                     }
                 }
-                catch (SocketException e)
+                catch (Exception e)
                 {
-                    Thread.Sleep(TimeSpan.FromMinutes(time));
+                    host?.Close();
+
+                    if (closeEvent.Wait(TimeSpan.FromMinutes(time)))
+                        return default(T);
+
                     if (attemptNumber++ == 20)
                     {
                         time = 65;
@@ -107,22 +160,81 @@ namespace DLPSystem.ClientService.ClientEngine
         }
 
         private void SynсhronizeDataWithServer()
-        {
-            List<Module> temp;
-            if (modulesConfig.Count <= 0)
-                temp = VerifyObjectOnServer("CheckModulesConfig", default(List<Module>));
+        {  
+            ModulesConfig = VerifyObjectOnServer("CheckModulesConfig", ModulesConfig, "Count", 0); 
+            if(ServiceConfig.IsEmpty)
+                ServiceConfig = VerifyObjectOnServer("CheckServiceConfig", default(ServiceConfiguration), "IsEmpty", true);
             else
-                temp = VerifyObjectOnServer("CheckModulesConfig", modulesConfig);
-            if (temp != null)
-                modulesConfig = temp;
+                ServiceConfig = VerifyObjectOnServer("CheckServiceConfig", ServiceConfig, "IsEmpty", true);
+        }
 
-            ServiceConfig temp1;
-            if (serviceConfig.IsEmpty())
-                temp1 = VerifyObjectOnServer("CheckServiceConfig", default(ServiceConfig));
-            else
-                temp1 = VerifyObjectOnServer("CheckServiceConfig", serviceConfig);
-            if (temp1 != null)
-                serviceConfig = temp1;
+        private Packet ProcessTask(Packet packet)
+        {
+            switch (packet.Task)
+            {
+                case "installModule":
+                    Module module = JsonController.DeserializeFromBson<Module>
+                        (packet.Data);
+                    FileController.WriteBinaryFile(Path.Combine(pathToModulesFolder,
+                        Path.GetFileNameWithoutExtension(module.Name), module.Name), module.Data);
+                    ModulesConfig.Add(new Module
+                    {
+                        Name = module.Name,
+                        Version = module.Version,
+                        Data = null
+                    });
+                    ModulesConfig = ModulesConfig;
+
+                    packet.Task = "success";
+                    packet.Data = null;
+                    break;
+
+                default:
+                    break;
+            }
+
+            packet.GUID = deviceId;
+            packet.HostName = Dns.GetHostName();
+            return packet;
+        }
+
+        private void StartListener()
+        {
+            TcpListener listener = null;
+            do
+            {
+                try
+                {
+                    listener = Connection.StartListener();
+                    do
+                    {
+                        if (listener.Pending())
+                            using (var client = listener.AcceptTcpClient())
+                            {
+                                var stream = client.GetStream();
+                                Packet packet = JsonController.DeserializeFromBson<Packet>
+                                    (Connection.RecieveData(stream));
+
+                                packet = ProcessTask(packet);
+                                Connection.SendData(stream, JsonController.SerializeToBson(packet));
+
+                                stream.Close();
+                                client.Close();
+                            }
+                        else
+                            if (closeEvent.Wait(TimeSpan.FromSeconds(20)))
+                        {
+                            listener.Stop();
+                            return;
+                        }
+                    } while (true);
+                }
+                catch(Exception e)
+                {
+                    listener?.Stop();
+                    continue;
+                }
+            } while (true);
         }
 
         private Process ExecuteModule(Module module)
@@ -138,65 +250,6 @@ namespace DLPSystem.ClientService.ClientEngine
             {
                 return null;
             }
-        }
-
-        private void WriteBinaryFile(Module module)
-        {
-            using(BinaryWriter writer = new BinaryWriter(File.Open(
-                Path.Combine(this.pathToModulesFolder, module.Name), FileMode.Create)))
-            {
-                writer.Write(module.Data);
-                writer.Close();
-            }
-        }
-
-        private void StartListener()
-        {
-            var listener = Connection.StartListener();
-            
-            do
-            {
-                if (listener.Pending())
-                {
-                    var client = listener.AcceptTcpClient();
-                    var stream = client.GetStream();
-                    Packet packet = JsonController.DeserializeFromBson<Packet>
-                        (Connection.RecieveData(stream));
-
-                    switch (packet.Task)
-                    {
-                        case "installModule":
-                            Module module = JsonController.DeserializeFromBson<Module>
-                                (packet.Data);
-                            WriteBinaryFile(module);
-                            this.modulesConfig.Add(new Module
-                            {
-                                Name = module.Name,
-                                Version = module.Version,
-                                Data = null
-                            });
-
-                            Connection.SendData(stream, JsonController.SerializeToBson<Packet>(
-                                new Packet()
-                                {
-                                    GUID = this.deviceId,
-                                    HostName = Dns.GetHostName(),
-                                    Task = "success",
-                                    Data = null
-                                }));
-                            break;
-
-                        default:
-                            break;
-                    }
-                    
-                    stream.Close();
-                    client.Close();
-                }
-
-            } while (true);
-
-
-        }
+        }       
     }
 }
