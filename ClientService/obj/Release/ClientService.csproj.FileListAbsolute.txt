@@ -1,0 +1,17 @@
+F:\WorkSpace\DLPSystem\ClientService\bin\Release\ClientService.exe.config
+F:\WorkSpace\DLPSystem\ClientService\bin\Release\ClientService.exe
+F:\WorkSpace\DLPSystem\ClientService\bin\Release\ClientService.pdb
+F:\WorkSpace\DLPSystem\ClientService\bin\Release\DeviceId.dll
+F:\WorkSpace\DLPSystem\ClientService\bin\Release\DLPEngineLibrary.dll
+F:\WorkSpace\DLPSystem\ClientService\bin\Release\Newtonsoft.Json.dll
+F:\WorkSpace\DLPSystem\ClientService\bin\Release\DeviceId.xml
+F:\WorkSpace\DLPSystem\ClientService\bin\Release\DLPEngineLibrary.pdb
+F:\WorkSpace\DLPSystem\ClientService\bin\Release\Newtonsoft.Json.xml
+F:\WorkSpace\DLPSystem\ClientService\obj\Release\ClientService.csprojAssemblyReference.cache
+F:\WorkSpace\DLPSystem\ClientService\obj\Release\DLPSystem.ClientService.DLPClientService.resources
+F:\WorkSpace\DLPSystem\ClientService\obj\Release\DLPSystem.ClientService.ProjectInstaller.resources
+F:\WorkSpace\DLPSystem\ClientService\obj\Release\ClientService.csproj.GenerateResource.cache
+F:\WorkSpace\DLPSystem\ClientService\obj\Release\ClientService.csproj.CoreCompileInputs.cache
+F:\WorkSpace\DLPSystem\ClientService\obj\Release\ClientService.csproj.CopyComplete
+F:\WorkSpace\DLPSystem\ClientService\obj\Release\ClientService.exe
+F:\WorkSpace\DLPSystem\ClientService\obj\Release\ClientService.pdb

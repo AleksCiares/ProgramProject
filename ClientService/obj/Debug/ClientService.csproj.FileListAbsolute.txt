@@ -6,8 +6,12 @@ F:\WorkSpace\DLPSystem\ClientService\obj\Debug\ClientService.csproj.GenerateReso
 F:\WorkSpace\DLPSystem\ClientService\obj\Debug\ClientService.csproj.CoreCompileInputs.cache
 F:\WorkSpace\DLPSystem\ClientService\obj\Debug\ClientService.exe
 F:\WorkSpace\DLPSystem\ClientService\obj\Debug\ClientService.pdb
-F:\WorkSpace\DLPSystem\ClientService\obj\Debug\ClientService.ProjectInstaller.resources
-F:\WorkSpace\DLPSystem\ClientService\obj\Debug\ClientService.DLPClientService.resources
 F:\WorkSpace\DLPSystem\ClientService\bin\Debug\Newtonsoft.Json.dll
 F:\WorkSpace\DLPSystem\ClientService\bin\Debug\Newtonsoft.Json.xml
 F:\WorkSpace\DLPSystem\ClientService\obj\Debug\ClientService.csproj.CopyComplete
+F:\WorkSpace\DLPSystem\ClientService\obj\Debug\DLPSystem.ClientService.DLPClientService.resources
+F:\WorkSpace\DLPSystem\ClientService\obj\Debug\DLPSystem.ClientService.ProjectInstaller.resources
+F:\WorkSpace\DLPSystem\ClientService\bin\Debug\DeviceId.dll
+F:\WorkSpace\DLPSystem\ClientService\bin\Debug\DLPEngineLibrary.dll
+F:\WorkSpace\DLPSystem\ClientService\bin\Debug\DeviceId.xml
+F:\WorkSpace\DLPSystem\ClientService\bin\Debug\DLPEngineLibrary.pdb

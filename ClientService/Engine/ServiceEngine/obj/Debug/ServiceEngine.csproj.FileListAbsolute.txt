@@ -1,9 +1,0 @@
-F:\WorkSpace\DLPSystem\ClientService\Engine\ServiceEngine\bin\Debug\ServiceEngine.pdb
-F:\WorkSpace\DLPSystem\ClientService\Engine\ServiceEngine\obj\Debug\ServiceEngine.csproj.CoreCompileInputs.cache
-F:\WorkSpace\DLPSystem\ClientService\Engine\ServiceEngine\obj\Debug\ServiceEngine.pdb
-F:\WorkSpace\DLPSystem\ClientService\Engine\ServiceEngine\bin\Debug\ServiceEngine.exe
-F:\WorkSpace\DLPSystem\ClientService\Engine\ServiceEngine\obj\Debug\ServiceEngine.exe
-F:\WorkSpace\DLPSystem\ClientService\Engine\ServiceEngine\obj\Debug\ServiceEngine.csprojAssemblyReference.cache
-F:\WorkSpace\DLPSystem\ClientService\Engine\ServiceEngine\bin\Debug\Newtonsoft.Json.dll
-F:\WorkSpace\DLPSystem\ClientService\Engine\ServiceEngine\bin\Debug\Newtonsoft.Json.xml
-F:\WorkSpace\DLPSystem\ClientService\Engine\ServiceEngine\obj\Debug\ServiceEngine.csproj.CopyComplete

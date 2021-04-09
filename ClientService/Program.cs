@@ -1,5 +1,7 @@
-﻿using System;
+﻿using DLPSystem.ClientService.ClientEngine;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.ServiceProcess;
 using System.Text;
@@ -14,6 +16,9 @@ namespace DLPSystem.ClientService
         /// </summary>
         static void Main()
         {
+            ServiceEngine serviceEngine = new ServiceEngine(@"F:\WorkSpace\Testdlpsystem\Client", "127.0.0.1", 29015);
+            serviceEngine.Start();
+
             ServiceBase[] ServicesToRun;
             ServicesToRun = new ServiceBase[]
             {

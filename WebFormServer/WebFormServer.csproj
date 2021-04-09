@@ -44,12 +44,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DLPEngineLibrary">
+      <HintPath>..\DLPEngineLibrary\bin\Release\DLPEngineLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.DataVisualization" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
@@ -183,12 +187,6 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Engine\Controllers\Connection.cs" />
-    <Compile Include="Engine\Controllers\JsonController.cs" />
-    <Compile Include="Engine\Models\Client.cs" />
-    <Compile Include="Engine\Models\Module.cs" />
-    <Compile Include="Engine\Models\Packet.cs" />
-    <Compile Include="Engine\Models\TransmittedData.cs" />
     <Compile Include="Engine\ServerEngine.cs" />
     <Compile Include="Engine\ServerEngineApi.cs" />
     <Compile Include="Global.asax.cs">
