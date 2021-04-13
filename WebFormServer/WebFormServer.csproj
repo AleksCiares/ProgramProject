@@ -44,8 +44,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DLPEngineLibrary">
-      <HintPath>..\DLPEngineLibrary\bin\Release\DLPEngineLibrary.dll</HintPath>
+    <Reference Include="DLPEngineLibrary, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLPEngineLibrary\bin\Debug\DLPEngineLibrary.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.ComponentModel.DataAnnotations" />

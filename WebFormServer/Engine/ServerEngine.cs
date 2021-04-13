@@ -12,12 +12,22 @@ namespace WebFormServer.Engine
     internal static partial class ServerEngine
     {
         private static readonly object locker = new object();
-        private static ManualResetEventSlim mainEvent = new ManualResetEventSlim(false);
+        private static ManualResetEventSlim closeEvent = new ManualResetEventSlim(false);
+
+        private static event EventHandler<Exception> Errors;
+        private static readonly object errorsLocker = new object();
+        private static void ServiceEngine_Errors(object sender, Exception e)
+        {
+            lock (errorsLocker)
+                FileController.WriteLogInfo(pathToLogFile, e.ToString());
+        }
 
         private static string pathToServerFolder = null;
         private static string pathToModulesFolder = null;
         private static string pathToClientsInfoFolder = null;
         private static string pathToClientsConfigFile = null;
+        private static string pathToLogFile = null;
+
         private static List<Client> controlledclients = null;
         private static List<Client> ControlledClients
         {
@@ -51,18 +61,7 @@ namespace WebFormServer.Engine
             pathToClientsInfoFolder = Path.Combine(pathToServerFolder, "ClientsInfo");
             pathToModulesFolder = Path.Combine(pathToServerFolder, "Modules");
             pathToClientsConfigFile = Path.Combine(pathToClientsInfoFolder, "ClientsConfig.json");
-
-            //if (!Directory.Exists(pathToServerFolder))
-            //    Directory.CreateDirectory(pathToServerFolder);
-
-            //if (!Directory.Exists(pathToClientsInfoFolder))
-            //    Directory.CreateDirectory(pathToClientsInfoFolder);
-
-            //if (!Directory.Exists(pathToModulesFolder))
-            //    Directory.CreateDirectory(pathToModulesFolder);
-
-            //if (!File.Exists(pathToClientsConfigFile))
-            //    File.Create(pathToClientsConfigFile).Close();
+            pathToLogFile = Path.Combine(pathToServerFolder, "ErrorsLog.txt");
         }
 
         private static void SaveAllConfigs()
@@ -81,7 +80,17 @@ namespace WebFormServer.Engine
 
         private static Client GetClientConfig(IPEndPoint endPoint, Packet packet)
         {
-            string tempDnsName = Dns.GetHostEntry(endPoint.Address).HostName;
+            string tempDnsName = null;
+            try
+            {
+                tempDnsName = Dns.GetHostEntry(endPoint.Address).HostName;
+            }
+            catch(Exception e)
+            {
+                Errors(null, e);
+                tempDnsName = packet.HostName;
+            }
+            
             string tempIpHost = endPoint.Address.ToString();
 
             if (ControlledClients.Count > 0)
@@ -183,7 +192,7 @@ namespace WebFormServer.Engine
             {
                 try
                 {
-                    listener = Connection.StartListener(IPAddress.Loopback.ToString());
+                    listener = Connection.StartListener();
                     do
                     {
                         if (listener.Pending())
@@ -201,9 +210,9 @@ namespace WebFormServer.Engine
                                 tcpClient.Close();
                             }
                         else
-                            if (mainEvent.Wait(TimeSpan.FromSeconds(5)))
+                            if (closeEvent.Wait(TimeSpan.FromSeconds(5)))
                         {
-                            listener.Stop();
+                            listener?.Stop();
                             return;
                         }
                     } while (true);
@@ -211,10 +220,10 @@ namespace WebFormServer.Engine
                 catch (Exception e)
                 {
                     listener?.Stop();
+                    Errors(null, e);
                     continue;
                 }
             } while (true);
         }
-            
     }
 }

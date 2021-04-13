@@ -12,17 +12,14 @@ namespace DLPEngineLibrary.Controllers
         {
             if (object.Equals(@object, default(T)))
                 return default(T);
-
-            if (EqualityComparer<T>.Default.Equals(@object, default(T)))
-                return default(T);
+            ///if (EqualityComparer<T>.Default.Equals(@object, default(T)))
+            ///    return default(T);
 
             Type type = typeof(T);
-
             if (type.GetProperty(property).GetValue(@object, null) != null)
             {
-                T1 value1 = (T1)type.GetProperty(property).GetValue(@object, null);
-
-                if (EqualityComparer<T1>.Default.Equals(value1, comparator))
+                T1 value = (T1)type.GetProperty(property).GetValue(@object, null);
+                if (EqualityComparer<T1>.Default.Equals(value, comparator))
                     return default(T);
                 else
                     return @object;
@@ -40,7 +37,6 @@ namespace DLPEngineLibrary.Controllers
                 return false;
 
             Type type = typeof(T);
-
             foreach (System.Reflection.PropertyInfo property in type.GetProperties())
             {
                 string object1Value = string.Empty;

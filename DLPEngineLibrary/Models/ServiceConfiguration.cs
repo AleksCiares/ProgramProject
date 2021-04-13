@@ -11,8 +11,11 @@ namespace DLPEngineLibrary.Models
             {
                 System.Type type = typeof(ServiceConfiguration);
                 foreach (System.Reflection.PropertyInfo property in type.GetProperties())
+                {
+                    if (property.Name == "IsEmpty") continue;
                     if (type.GetProperty(property.Name).GetValue(this, null) != null)
                         return false;
+                }
 
                 return true;
             }

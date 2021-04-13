@@ -1,6 +1,7 @@
 ﻿using DLPEngineLibrary.Models;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -15,7 +16,28 @@ namespace DLPEngineLibrary.Controllers
     internal static class FileController
     {
         internal delegate T FileReader<T>(string path);
+
         internal delegate void FileWriter<T>(string path, T @object);
+
+        internal static void WriteLogInfo(string path, string info)
+        {
+            string pathTodir = Path.GetDirectoryName(path);
+            if (!Directory.Exists(pathTodir))
+                Directory.CreateDirectory(pathTodir);
+
+            using (var stream = File.Open(path, FileMode.OpenOrCreate, FileAccess.Write))
+            {
+                stream.Seek(0, SeekOrigin.End);
+                StreamWriter writer = new StreamWriter(stream);
+                var culture = CultureInfo.DefaultThreadCurrentCulture;
+                var date = DateTime.Now;
+                writer.Write($"{Environment.NewLine}{culture.Name} {date.ToString(culture)}: {info}");
+
+                writer.Close();
+                stream.Close();
+            }
+
+        }
 
         internal static string GetSId(WellKnownSidType wellKnownSidType)
         {

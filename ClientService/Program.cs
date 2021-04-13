@@ -16,7 +16,7 @@ namespace DLPSystem.ClientService
         /// </summary>
         static void Main()
         {
-            ServiceEngine serviceEngine = new ServiceEngine(@"F:\WorkSpace\Testdlpsystem\Client", "127.0.0.1", 29015);
+            ServiceEngine serviceEngine = new ServiceEngine(@"F:\WorkSpace\Testdlpsystem\Client", "192.168.43.86", 29015);
             serviceEngine.Start();
 
             ServiceBase[] ServicesToRun;

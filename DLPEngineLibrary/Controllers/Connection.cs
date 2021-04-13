@@ -1,5 +1,7 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 
 namespace DLPEngineLibrary.Controllers
 {
@@ -43,8 +45,14 @@ namespace DLPEngineLibrary.Controllers
             {
                 bytes = stream.Read(data.Data, data.Offset, data.Freespace);
                 data.Offset += bytes;
+                if(!stream.DataAvailable)
+                {
+                    Thread.Sleep(TimeSpan.FromSeconds(2));
+                        if (!stream.DataAvailable)
+                        break;
+                }
 
-            } while (stream.DataAvailable);
+            } while (true);
 
             return data.Data;
         }

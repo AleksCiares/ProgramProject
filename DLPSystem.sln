@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebFormServer", "WebFormSer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DLPEngineLibrary", "DLPEngineLibrary\DLPEngineLibrary.csproj", "{86810233-64E9-4808-A0CD-6186A9996C9A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{58802F3D-952F-4EA8-BCCC-860BB7963BC0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileParsing", "Modules\FileParsing\FileParsing.csproj", "{B8FA0FAC-AA98-47D7-B566-95D1A9141B12}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,12 +39,17 @@ Global
 		{86810233-64E9-4808-A0CD-6186A9996C9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86810233-64E9-4808-A0CD-6186A9996C9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86810233-64E9-4808-A0CD-6186A9996C9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8FA0FAC-AA98-47D7-B566-95D1A9141B12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8FA0FAC-AA98-47D7-B566-95D1A9141B12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8FA0FAC-AA98-47D7-B566-95D1A9141B12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8FA0FAC-AA98-47D7-B566-95D1A9141B12}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F7528499-8800-4DB4-9F45-4E8035383D7B} = {27D848DA-A6AA-45A9-8E89-DAE4BB57BDCE}
+		{B8FA0FAC-AA98-47D7-B566-95D1A9141B12} = {58802F3D-952F-4EA8-BCCC-860BB7963BC0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3606F97D-7329-48EE-8112-CEBB40BA18AC}
