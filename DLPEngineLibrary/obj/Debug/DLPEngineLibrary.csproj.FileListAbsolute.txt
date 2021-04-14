@@ -6,4 +6,3 @@ F:\WorkSpace\DLPSystem\DLPEngineLibrary\obj\Debug\DLPEngineLibrary.csproj.CopyCo
 F:\WorkSpace\DLPSystem\DLPEngineLibrary\obj\Debug\DLPEngineLibrary.pdb
 F:\WorkSpace\DLPSystem\DLPEngineLibrary\bin\Debug\DLPEngineLibrary.dll
 F:\WorkSpace\DLPSystem\DLPEngineLibrary\obj\Debug\DLPEngineLibrary.dll
-F:\WorkSpace\DLPSystem\DLPEngineLibrary\obj\Debug\DLPEngineLibrary.csprojAssemblyReference.cache

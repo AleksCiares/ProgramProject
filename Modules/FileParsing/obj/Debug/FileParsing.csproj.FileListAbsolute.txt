@@ -1,0 +1,14 @@
+F:\WorkSpace\DLPSystem\Modules\FileParsing\obj\Debug\FileParsing.csprojAssemblyReference.cache
+F:\WorkSpace\DLPSystem\Modules\FileParsing\obj\Debug\FileParsing.csproj.CoreCompileInputs.cache
+F:\WorkSpace\DLPSystem\Modules\FileParsing\bin\Debug\FileParsing.exe.config
+F:\WorkSpace\DLPSystem\Modules\FileParsing\bin\Debug\FileParsing.exe
+F:\WorkSpace\DLPSystem\Modules\FileParsing\bin\Debug\FileParsing.pdb
+F:\WorkSpace\DLPSystem\Modules\FileParsing\bin\Debug\DLPEngineLibrary.dll
+F:\WorkSpace\DLPSystem\Modules\FileParsing\bin\Debug\DocumentFormat.OpenXml.dll
+F:\WorkSpace\DLPSystem\Modules\FileParsing\bin\Debug\Newtonsoft.Json.dll
+F:\WorkSpace\DLPSystem\Modules\FileParsing\bin\Debug\DLPEngineLibrary.pdb
+F:\WorkSpace\DLPSystem\Modules\FileParsing\bin\Debug\DocumentFormat.OpenXml.xml
+F:\WorkSpace\DLPSystem\Modules\FileParsing\bin\Debug\Newtonsoft.Json.xml
+F:\WorkSpace\DLPSystem\Modules\FileParsing\obj\Debug\FileParsing.csproj.CopyComplete
+F:\WorkSpace\DLPSystem\Modules\FileParsing\obj\Debug\FileParsing.exe
+F:\WorkSpace\DLPSystem\Modules\FileParsing\obj\Debug\FileParsing.pdb

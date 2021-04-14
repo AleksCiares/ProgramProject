@@ -37,3 +37,4 @@ using System.Runtime.InteropServices;
 
 [assembly: InternalsVisibleTo("ClientService")]
 [assembly: InternalsVisibleTo("WebFormServer")]
+[assembly: InternalsVisibleTo("FileParsing")]
